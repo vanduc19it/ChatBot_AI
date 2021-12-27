@@ -36,29 +36,46 @@ def predict_class(sentence):
     bow = bag_of_words(sentence)
     res = model.predict(np.array([bow]))[0]
     ERROR_THRESHOLD = 0.25
-    results = [[i,r] for i, r  in enumerate(res) if r > ERROR_THRESHOLD]
-    
+    results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     
     results.sort(key=lambda x: x[1], reverse=True)
     return_list = []
     for r in results:
         return_list.append({'intent': classes[r[0]], 'probability': str(r[1])})
     return return_list
+    print('day la return lisst'+ return_list)
 
-   
 
 
-def get_response(intents_list, intents_json):
-    
+# def get_response(intents_list, intents_json):
 
-    tag = intents_list[0]['intent']
-    list_of_intents = intents_json['intents']
-    for i in list_of_intents:
-        if i['tag'] == tag:
-            result = random.choice(i['responses'])
-            break
+
+#     tag = intents_list[0]['intent']
+#     list_of_intents = intents_json['intents']
+#     for i in list_of_intents:
+#         if i['tag'] == tag:
+#             result = random.choice(i['responses'])
+#             break
+#     return result
+
+def get_response(ints, intents_json):
+    try:
+        # tag = ints[0]['intent']
+        tag = 'greeting'
+        print('dayla tag:'+tag)
+        list_of_intents = intents_json['intents']
+        for i in list_of_intents:
+            print(list_of_intents)
+            print('day la itag:' + i['tag'])
+            if i['tag'] == tag:
+                print(random.choice(i['responses']))
+                result = random.choice(i['responses'])
+                break
+            else:
+                result = 'ko co'
+    except IndexError:
+        result = "I don't understand!"
     return result
-
 
 
 print('Go! bot is running')
